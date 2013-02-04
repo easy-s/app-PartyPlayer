@@ -21,6 +21,9 @@ var funnel2Automotive = (function(){
   var visibleItems = new Array(6);
   var sortedList = [];
   var initalized = false;
+  
+  var voteVisible = false;
+  
   funnel.onInit(function(){
     playerViz.onTimeUpdate(function(currentTime, timeLeft, duration){
       var s, m;
@@ -35,6 +38,27 @@ var funnel2Automotive = (function(){
     });
     playerViz.removeControls();
     playerViz.disableButtons();
+  
+  	//add keylistener for vote menu
+    document.onkeydown = function(e){ 
+      if (e == null) { // ie 
+        keycode = event.keyCode; 
+      } else { // mozilla 
+        keycode = e.which; 
+      } 
+
+      if(keycode == 79){
+          if(voteVisible){
+            votesVisible = false;
+            $('#voteView').fadeOut();
+          }else{
+            voteVisible = true;
+            $('#voteView').fadeIn();
+          }
+
+      }
+    };
+  
   });
 
   funnel.onRemoveItem(function(key){
