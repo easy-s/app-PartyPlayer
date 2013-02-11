@@ -22,6 +22,8 @@ var pc = null;
 var users = {};
 var uID; 
 var streamURLs={};
+ 
+var hostDevice; 
 
 partyplayer.main = {};
 partyplayer.funnel = {};
@@ -32,9 +34,18 @@ partyplayer.player.streaming="False";
 var bootstrapped = false;
 
 partyplayer.main.onjoin = function(params, ref, from) {
+
+    var guestDevice = partyplayer.distillDeviceInfo(params.serviceAddress);
+    var ishostU = false;
+    if(guestDevice.user == hostDevice.user){
+        isHostU = true;
+    }else{
+        isHostU = false;
+    }
+
     uID = pc.addUser(params); //registration on application level
     users[from]=uID; //registration on connection level.
-    partyplayer.sendMessageTo(from, {ns:"main", cmd:"welcome", params:{userID:uID}});
+    partyplayer.sendMessageTo(from, {ns:"main", cmd:"welcome", params:{userID:uID,isHost:isHostU}});
     pUsers = pc.getUsers();
     
     for (var u in pUsers){
@@ -333,6 +344,7 @@ $(document).ready(function(){
     }
     
     webinos.session.addListener('registeredBrowser', function () {
+        hostDevice = partyplayer.distillDeviceInfo(webinos.session.getPZPId());
         partyplayer.init('host', function(connected) {
             if (connected) {
                 pc = new PartyCollection("Webinos Party");

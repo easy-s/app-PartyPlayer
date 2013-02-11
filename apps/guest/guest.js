@@ -201,6 +201,9 @@ partyplayer.funnel = {};
 partyplayer.player = {};
 partyplayer.main.onwelcome = function(param, ref) {
     userProfile.userID = param.userID;
+    if(param.isHost){
+        //TODO: hook for the disabling voting functions for user who is hosting a party
+    }
     log('onwelcome invoked! userID = '+ userProfile.userID); 
 };
 
