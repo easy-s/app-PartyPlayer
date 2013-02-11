@@ -414,3 +414,15 @@ partyplayer.sendMessageTo = function(to, msg) {
         console.log('No channel present. Not sending messsage <' + msg + '> to <' + to + '>');
     }
 };
+
+partyplayer.distillDeviceInfo = function(serviceAddress){
+    var hubIp = serviceAddress.substring(0,serviceAddress.indexOf('_'));
+    var zoneId = serviceAddress.substring(serviceAddress.indexOf('_')+1, serviceAddress.indexOf('/')); //user
+    var hostPzp = serviceAddress.substring(serviceAddress.indexOf('/')+1); //device
+    return new WebinosDevice(hostPzp, zoneId);
+};
+
+function WebinosDevice(name, user){ 
+        this.name=name;
+        this.user=user;
+};
